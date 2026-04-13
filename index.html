@@ -1,11 +1,393 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Jin Feng</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jin Feng | MIT Academic Homepage</title>
+  <style>
+    :root {
+      --bg: #f5f6f8;
+      --panel: #ffffff;
+      --text: #2f3440;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --border: #e5e7eb;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+      --radius: 18px;
+      --sidebar-width: 290px;
+      --max-width: 1260px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .page {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 36px 24px 60px;
+      display: grid;
+      grid-template-columns: var(--sidebar-width) 1fr;
+      gap: 28px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 24px;
+      align-self: start;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .avatar {
+      width: 176px;
+      height: 176px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 22px;
+      border: 4px solid #fff;
+      box-shadow: 0 10px 24px rgba(0,0,0,.10);
+      background: linear-gradient(135deg, #dbeafe, #e5e7eb);
+    }
+
+    .name {
+      font-size: 2rem;
+      line-height: 1.15;
+      margin: 0;
+      text-align: left;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .title {
+      margin: 14px 0 10px;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .sidebar p {
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+
+    .sidebar strong {
+      color: var(--text);
+    }
+
+    .contact {
+      margin-top: 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .socials {
+      display: flex;
+      gap: 10px;
+      margin: 18px 0 8px;
+      flex-wrap: wrap;
+    }
+
+    .socials a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 40px;
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: #eff6ff;
+      color: var(--accent);
+      font-weight: 700;
+      border: 1px solid #dbeafe;
+    }
+
+    .quick-links-label {
+      margin-top: 28px;
+      margin-bottom: 12px;
+      font-size: 0.86rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .nav {
+      display: grid;
+      gap: 10px;
+    }
+
+    .nav a {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: var(--text);
+      border: 1px solid transparent;
+      background: transparent;
+      transition: all .18s ease;
+      font-weight: 600;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+    }
+
+    .content {
+      display: grid;
+      gap: 22px;
+    }
+
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px 34px;
+    }
+
+    .section h2 {
+      margin: 0 0 18px;
+      font-size: 2rem;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .section h3 {
+      margin: 24px 0 10px;
+      font-size: 1.4rem;
+    }
+
+    .lead {
+      font-size: 1.1rem;
+      color: #424b57;
+    }
+
+    .highlight {
+      margin: 20px 0;
+      padding: 16px 18px;
+      border-radius: 14px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+    }
+
+    .highlight strong {
+      color: #c2410c;
+    }
+
+    ul.clean {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    ul.clean li { margin-bottom: 10px; }
+
+    .news-list,
+    .pub-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .item {
+      padding: 16px 18px;
+      border-radius: 14px;
+      background: #fafafa;
+      border: 1px solid var(--border);
+    }
+
+    .item .meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .item .item-title {
+      font-size: 1.04rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      padding: 8px 0 0;
+    }
+
+    @media (max-width: 980px) {
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        padding: 18px 14px 40px;
+      }
+
+      .sidebar,
+      .section {
+        padding: 22px;
+      }
+
+      .section h2 {
+        font-size: 1.6rem;
+      }
+
+      .name {
+        font-size: 1.7rem;
+      }
+
+      .avatar {
+        width: 138px;
+        height: 138px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome to my website</h1>
-  <p>This is my GitHub Pages site.</p>
+  <div class="page">
+    <aside class="sidebar">
+      <img class="avatar" src="https://via.placeholder.com/400x400.png?text=Jin+Feng" alt="Jin Feng profile photo" />
+      <h1 class="name">Jin Feng</h1>
+      <div class="title">PhD Candidate</div>
+      <p><strong>Department of Mechanical Engineering</strong><br>Research Laboratory of Electronics<br>Massachusetts Institute of Technology</p>
+      <p>Jeehwan Kim Research Group</p>
+      <p>Cambridge, MA</p>
+
+      <div class="contact">
+        <div><strong>Email:</strong><br><a href="mailto:jinf1219@mit.edu">jinf1219@mit.edu</a></div>
+        <div><strong>Research:</strong><br>Semiconductors, heterogeneous integration, remote epitaxy, monolithic 3D integration, micro-LEDs</div>
+      </div>
+
+      <div class="socials">
+        <a href="https://scholar.google.com/citations?user=BV20WNMAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+        <a href="#">GitHub</a>
+        <a href="https://www.linkedin.com/in/jin-feng-74b96124a/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+
+      <div class="quick-links-label">Quick Links</div>
+      <nav class="nav">
+        <a class="active" href="#about">About Me</a>
+        <a href="#news">News</a>
+        <a href="#publications">Publications</a>
+        <a href="#projects">Projects</a>
+        <a href="#teaching">Teaching</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section class="section" id="about">
+        <h2>About Me</h2>
+        <p class="lead">I am a PhD Candidate in the Department of Mechanical Engineering and the Research Laboratory of Electronics at MIT, where I work in the Jeehwan Kim Research Group. My research focuses on scalable heterogeneous integration of semiconductors and functional materials for next-generation electronic and optoelectronic systems.</p>
+        <p>I am particularly interested in remote epitaxy, monolithic 3D integration, advanced semiconductor growth, and red InGaN micro-LEDs. My long-term goal is to develop practical integration technologies that bridge materials innovation, device engineering, and real-world hardware applications.</p>
+
+        <div class="highlight">
+          <strong>Site under construction:</strong> additional sections including publications, projects, research highlights, and updates will be added soon.
+        </div>
+
+        <h3>Research Interests</h3>
+        <ul class="clean">
+          <li><strong>Heterogeneous semiconductor integration:</strong> integrating advanced materials and device platforms for future hardware systems.</li>
+          <li><strong>Remote epitaxy and 2D materials:</strong> enabling strain engineering, layer release, and scalable growth pathways.</li>
+          <li><strong>Monolithic 3D integration:</strong> low-temperature and growth-based integration of materials and devices.</li>
+          <li><strong>Red InGaN micro-LEDs:</strong> high-indium-content growth, strain-relaxed templates, and routes toward monolithic RGB integration.</li>
+        </ul>
+      </section>
+
+      <section class="section" id="news">
+        <h2>News</h2>
+        <div class="news-list">
+          <div class="item">
+            <div class="meta">[MM/YYYY]</div>
+            <div class="item-title">News update coming soon</div>
+            <div>This section will be updated with recent milestones, publications, talks, and research highlights.</div>
+          </div>
+          <div class="item">
+            <div class="meta">[MM/YYYY]</div>
+            <div class="item-title">More updates to be added</div>
+            <div>Current website content is being organized and refined.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="publications">
+        <h2>Selected Publications</h2>
+        <div class="pub-list">
+          <div class="item">
+            <div class="item-title">Publication list coming soon</div>
+            <div>Representative papers, links, and selected highlights will be added here.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="projects">
+        <h2>Projects</h2>
+        <div class="two-col">
+          <div class="item">
+            <div class="item-title">Project information coming soon</div>
+            <div>This section will highlight current research directions and selected technical projects.</div>
+          </div>
+          <div class="item">
+            <div class="item-title">More research highlights to be added</div>
+            <div>Additional project summaries, figures, and outcomes will be included in a future update.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="teaching">
+        <h2>Teaching & Service</h2>
+        <ul class="clean">
+          <li>Section content to be added.</li>
+        </ul>
+      </section>
+
+      <section class="section" id="contact">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:jinf1219@mit.edu">jinf1219@mit.edu</a></p>
+        <p>Google Scholar: <a href="https://scholar.google.com/citations?user=BV20WNMAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">View profile</a></p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/jin-feng-74b96124a/" target="_blank" rel="noopener noreferrer">View profile</a></p>
+      </section>
+
+      <div class="footer">© 2026 Jin Feng · Cambridge, MA · Built with HTML/CSS and hosted on GitHub Pages.</div>
+    </main>
+  </div>
 </body>
 </html>
